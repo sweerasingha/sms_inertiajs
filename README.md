@@ -39,9 +39,9 @@ php artisan serve
 ## Screenshots
 Here are some screenshots of SMS in action:
 
-![Image01]('/screenshots/image01.png')
-![Image02]('/screenshots/image02.png')
-![Image03]('/screenshots/image03.png')
+![Image01](screenshots/image01.png)
+![Image02](screenshots/image02.png)
+![Image03](screenshots/image03.png)
 
 ## Contributing
 Contributions to the Student Management System are welcome! Please feel free to fork the repository, make your changes, and submit a pull request.
