@@ -2,7 +2,7 @@
     <AppLayout>
         <template #content>
             <div
-                class="container flex flex-col items-center justify-center min-w-full bg-gray-900"
+                class="container flex flex-col items-center justify-center min-w-full bg-gray-900 h-auto"
             >
                 <div class="row">
                     <div class="col-lg-12 text-center">
@@ -157,7 +157,7 @@
                     <div class="modal-content bg-gray-800 text-white">
                         <div class="modal-header border-b border-gray-700">
                             <h5 class="modal-title" id="taskEditLabel">
-                                Edit Task
+                                Edit Student Details
                             </h5>
                         </div>
                         <div
@@ -203,7 +203,7 @@
                                             type="submit"
                                             class="btn bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
                                         >
-                                            Update Task
+                                            Update Student
                                         </button>
                                     </div>
                                 </div>
