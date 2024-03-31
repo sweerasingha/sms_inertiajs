@@ -1,58 +1,49 @@
 <template>
-    <div>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <Link class="navbar-brand" href="/">Navbar</Link>
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <Link href="/student" class="nav-link active" aria-current="page">Student List</Link>
-                        </li>
-                        <li class="nav-item">
-                            <Link href="#" class="nav-link">Link</Link>
-                        </li>
-                        <!-- Dropdown items can remain as <a> tags since they typically handle JS actions or no navigation -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                        </li>
-                    </ul>
-                    <span>
-                        <Link href="/logout" class="btn btn-outline-danger">Logout</Link>
-                    </span>
-                </div>
-            </div>
-        </nav>
-    </div>
+    <nav class="flex items-center justify-between flex-wrap bg-teal-500 p-6">
+        <div class="flex items-center flex-shrink-0 text-white mr-6">
+          <span class="font-semibold text-xl tracking-tight"><Link class="navbar-brand" href="/">Navbar</Link></span>
+        </div>
+        <div class="block lg:hidden">
+          <button class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
+            <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
+          </button>
+        </div>
+        <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+          <div class="text-sm lg:flex-grow">
+            <Link href="/student" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">Dashboard</Link>
+          </div>
+          <div>
+            <Link v-if="!isLoggedIn" href="/login" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Login</Link>
+            <Link v-if="!isLoggedIn" href="/register" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Register</Link>
+            <Link v-else href="/logout" method="post" as="button" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Logout</Link>
+        </div>
+
+
+        </div>
+      </nav>
 </template>
 
 <script>
-import { Link } from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue'; // Import computed from vue
 
 export default {
     components: {
         Link
-    }
+    },
+    setup() {
+    const { auth } = usePage().props;
+    console.log('Auth State:', auth); // Debugging line
+
+    return {
+        isLoggedIn: computed(() => {
+            console.log('isLoggedIn computed:', !!auth.user); // Debugging line
+            return !!auth.user;
+        }),
+    };
 }
+
+};
 </script>
+
+
