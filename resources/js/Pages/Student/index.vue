@@ -1,51 +1,68 @@
 <template>
     <AppLayout>
         <template #content>
-            <div class="container">
+            <div
+                class="container flex flex-col items-center justify-center min-w-full bg-gray-900"
+            >
                 <div class="row">
                     <div class="col-lg-12 text-center">
-                        <h1 class="page-title">My Student List</h1>
+                        <h1 class="page-title text-white">My Student List</h1>
                     </div>
-                    <div class="col-lg-12 mt-4">
+                    <div
+                        class="mt-4 w-full max-w-4xl rounded border py-4 px-4 mx-auto bg-gray-800 text-white"
+                    >
                         <form @submit.prevent="taskStore">
                             <div class="row">
                                 <div class="col-lg-8">
-                                    <div class="form-group">
+                                    <div class="form-group mb-4">
+                                        <label
+                                            for="studentName"
+                                            class="form-label"
+                                            >Student Name</label
+                                        >
                                         <input
-                                            class="form-control"
-                                            name="title"
+                                            id="studentName"
                                             type="text"
+                                            class="form-control"
+                                            name="name"
+                                            required
                                             v-model="task_form.name"
-                                            placeholder="Add new task"
-                                            aria-label="default input example"
-                                            required
+                                            placeholder="Enter student name"
+                                            aria-label="Student name"
                                         />
+                                    </div>
+                                    <div class="form-group mb-4">
+                                        <label
+                                            for="studentAge"
+                                            class="form-label"
+                                            >Student Age</label
+                                        >
+                                        <input
+                                            id="studentAge"
+                                            type="text"
+                                            class="form-control"
+                                            name="age"
+                                            required
+                                            v-model="task_form.age"
+                                            placeholder="Enter student age"
+                                            aria-label="Student age"
+                                        />
+                                    </div>
+                                    <div class="form-group mt-4">
                                         <input
                                             class="form-control"
-                                            name="title"
-                                            type="text"
-                                            v-model="task_form.age"
-                                            placeholder="Add new task"
-                                            aria-label="default input example"
-                                            required
+                                            name="image"
+                                            type="file"
+                                            ref="file"
+                                            accept="image/jpg, image/jpeg, image/png"
+                                            aria-label="Upload student image"
                                         />
-                                        <div class="form-group" mt-4>
-                                            <input
-                                                class="form-control"
-                                                name="image"
-                                                type="file"
-                                                ref="file"
-                                                placeholder="Default input"
-                                                aria-label="default input example"
-                                                accept="image/jpg, image/jpeg, image/png"
-                                            />
-                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-4 d-flex align-items-center">
                                     <button
                                         type="submit"
-                                        class="btn btn-success"
+                                        class="btn btn-primary"
                                     >
                                         Submit
                                     </button>
@@ -53,91 +70,76 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-lg-12 mt-4">
-                        <div>
-                            <table class="table table-success table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Image</th>
-                                        <th scope="col">Age</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr
-                                        v-for="(student, index) in task_list"
-                                        :key="index"
-                                    >
-                                        <th scope="row">{{ index + 1 }}</th>
-                                        <td>{{ student.name }}</td>
-                                        <td>
-                                            <img
-                                                :src="
-                                                    getImageUrl(student.image)
-                                                "
-                                                :alt="student.name"
-                                                style="
-                                                    width: 70px;
-                                                    height: 70px;
-                                                "
-                                            />
-                                        </td>
-
-                                        <td>{{ student.age }}</td>
-                                        <td>
-                                            <span
-                                                v-if="student.status"
-                                                class="badge bg-success"
-                                            >
-                                                Active
-                                            </span>
-                                            <span
-                                                v-else
-                                                class="badge bg-danger"
-                                            >
-                                                Inactive
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <button
-                                                class="btn btn-primary"
-                                                @click.prevent="
-                                                    taskEditModal(student.id)
-                                                "
-                                            >
-                                                <i
-                                                    class="fa-solid fa-check"
-                                                ></i>
-                                            </button>
-
-                                            <button
-                                                @click.prevent="
-                                                    deleteTask(student.id)
-                                                "
-                                                class="btn btn-danger"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-trash-can"
-                                                ></i>
-                                            </button>
-                                            <button
-                                                @click.prevent="
-                                                    studentStatus(student.id)
-                                                "
-                                                class="btn btn-success"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-check"
-                                                ></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="mt-4 w-full max-w-4xl px-4 mx-auto">
+                        <table class="table text-gray-300">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Age</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    v-for="(student, index) in task_list"
+                                    :key="index"
+                                >
+                                    <th scope="row">{{ index + 1 }}</th>
+                                    <td>{{ student.name }}</td>
+                                    <td>
+                                        <img
+                                            :src="getImageUrl(student.image)"
+                                            :alt="student.name"
+                                            class="student-image"
+                                        />
+                                    </td>
+                                    <td>{{ student.age }}</td>
+                                    <td>
+                                        <span
+                                            v-if="student.status"
+                                            class="badge bg-success"
+                                            >Active</span
+                                        >
+                                        <span v-else class="badge bg-danger"
+                                            >Inactive</span
+                                        >
+                                    </td>
+                                    <td>
+                                        <button
+                                            class="btn btn-primary"
+                                            @click.prevent="
+                                                taskEditModal(student.id)
+                                            "
+                                        >
+                                            <i
+                                                class="fa-regular fa-pen-to-square"
+                                            ></i>
+                                        </button>
+                                        <button
+                                            @click.prevent="
+                                                deleteTask(student.id)
+                                            "
+                                            class="btn btn-danger"
+                                        >
+                                            <i
+                                                class="fa-solid fa-trash-can"
+                                            ></i>
+                                        </button>
+                                        <button
+                                            @click.prevent="
+                                                studentStatus(student.id)
+                                            "
+                                            class="btn btn-info"
+                                        >
+                                            <i class="fa-regular fa-star"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -152,54 +154,56 @@
                 aria-hidden="true"
             >
                 <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
+                    <div class="modal-content bg-gray-800 text-white">
+                        <div class="modal-header border-b border-gray-700">
                             <h5 class="modal-title" id="taskEditLabel">
-                                Main Task Edit
+                                Edit Task
                             </h5>
                         </div>
-                        <div class="modal-body" id="taskEditContent">
+                        <div
+                            class="modal-body bg-gray-700"
+                            id="taskEditContent"
+                        >
                             <form @submit.prevent="taskUpdate">
                                 <div class="row">
                                     <div class="col-lg-8">
-                                        <div class="form-group">
+                                        <div class="form-group mb-4">
                                             <input
-                                                class="form-control"
+                                                class="form-control bg-gray-600 border border-gray-600 text-white"
                                                 name="title"
                                                 type="text"
                                                 v-model="task_update_form.name"
-                                                placeholder="Add new task"
-                                                aria-label="default input example"
+                                                placeholder="Enter task name"
+                                                aria-label="Task name"
                                                 required
                                             />
                                             <input
-                                                class="form-control"
-                                                name="title"
+                                                class="form-control bg-gray-600 border border-gray-600 text-white mt-4"
+                                                name="age"
                                                 type="text"
                                                 v-model="task_update_form.age"
-                                                placeholder="Add new task"
-                                                aria-label="default input example"
+                                                placeholder="Enter task age"
+                                                aria-label="Task age"
                                                 required
                                             />
-                                            <div class="form-group" mt-4>
-                                                <input
-                                                    class="form-control"
-                                                    name="imageupdate"
-                                                    type="file"
-                                                    ref="fileUpdate"
-                                                    placeholder="Default input"
-                                                    aria-label="default input example"
-                                                    accept="image/jpg, image/jpeg, image/png"
-                                                />
-                                            </div>
+                                            <input
+                                                class="form-control bg-gray-600 border border-gray-600 text-white mt-4"
+                                                name="imageupdate"
+                                                type="file"
+                                                ref="fileUpdate"
+                                                accept="image/jpg, image/jpeg, image/png"
+                                                aria-label="Update task image"
+                                            />
                                         </div>
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div
+                                        class="col-lg-4 d-flex align-items-center justify-content-center"
+                                    >
                                         <button
                                             type="submit"
-                                            class="btn btn-success"
+                                            class="btn bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
                                         >
-                                            Submit
+                                            Update Task
                                         </button>
                                     </div>
                                 </div>
@@ -240,7 +244,6 @@ export default {
     },
     methods: {
         getImageUrl(imagePath) {
-            // Adjust this based on where your application is hosted
             const baseUrl = window.location.origin;
             return `${baseUrl}/${imagePath}`;
         },
@@ -266,7 +269,6 @@ export default {
                 this.getTasks();
                 this.task_form.name = "";
                 this.task_form.age = "";
-                // Reset file input
                 if (this.$refs.file) {
                     this.$refs.file.value = "";
                 }
@@ -319,7 +321,74 @@ export default {
 <style lang="scss" scoped>
 .page-title {
     padding-top: 5vh;
-    font-size: 5rem;
-    color: rgb(10, 205, 124);
+    font-size: 3rem;
+}
+
+.table {
+    background-color: #2d3748;
+    border-collapse: collapse;
+    width: 100%;
+    & th,
+    & td {
+        border: 1px solid #4a5568;
+        text-align: left;
+        padding: 8px;
+    }
+    & th {
+        background-color: #4a5568;
+    }
+}
+
+.form-control {
+    background-color: #2d3748;
+    border: 1px solid #4a5568;
+    color: white;
+}
+
+.btn {
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    &.btn-primary:hover {
+        background-color: #63b3ed;
+    }
+    &.btn-danger {
+        background-color: #e53e3e;
+    }
+    &.btn-success {
+        background-color: #48bb78;
+    }
+}
+
+.student-image {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.375rem;
+    &.bg-success {
+        background-color: #38a169;
+    }
+    &.bg-danger {
+        background-color: #e53e3e;
+    }
 }
 </style>
